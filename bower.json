@@ -1,8 +1,8 @@
 {
-  "name": "Heeere",
-  "version": "1.0.0",
-  "main": "heeere.js",
-  "ignore": [
-    "**/.*"
-  ]
+	"name": "Heeere",
+	"version": "1.0.0",
+	"main": "heeere.js",
+	"ignore": [
+		"**/.*"
+	]
 }
