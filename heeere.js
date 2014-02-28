@@ -1,8 +1,8 @@
 /*!
- * Heeere.js 0.1
+ * Heeere.js 1.0.0
  * MIT licensed
  *
- * Copyright (C) 2013 Vincent De Oliveira, http://iamvdo.me
+ * Copyright (C) 2014 Vincent De Oliveira, http://iamvdo.me
  */
 (function () {
 
