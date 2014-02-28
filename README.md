@@ -23,8 +23,8 @@ heeere.bind({
 
 ## Options:
 
-* `elems`: a DOM selector
-* `viewportFactor`: represents the percentage of height from which an element is in the viewport or not (from 0 to 1)
+* `elems`: a DOM selector (default: `.heeere-item`)
+* `viewportFactor`: represents the percentage of height from which an element is in the viewport or not (from 0 to 1) (default: `.15`)
 
 ## Notes
 
