@@ -17,23 +17,20 @@
 
 	}
 
-	function goHeeere (elem, method, options) {
+	function goHeeere (method, options) {
 
-		var target = document.querySelector(elem);
-		if ( target !== null ) {
-			method.call(null, target, options);
-		}
+		method.call(null, options);
 
 	}
 
-	function add (target, options) {
+	function add (options) {
 
-		heeere = new Heeere(target, options);
+		heeere = new Heeere(options);
 		heeere.init();
 
 	}
 
-	function remove (target) {
+	function remove () {
 
 		heeere.destroy();
 
@@ -45,9 +42,7 @@
 
 	}
 
-	function Heeere (el, options) {
-
-		this.element = el;
+	function Heeere (options) {
 
 		for ( var key in options ) {
 			if ( options.hasOwnProperty(key) ) {
@@ -70,6 +65,7 @@
 			// list of items
 			this.items = [];
 			var elems = document.querySelectorAll(this.options.elems);
+
 			for ( var i = elems.length - 1; i >= 0; i-- ) {
 				this.items.push(elems[i]);
 			}
@@ -139,11 +135,11 @@
 
 	// add to global namespace
 	window.heeere = {
-		bind: function (elem, options) {
-			goHeeere(elem, add, options);
+		bind: function (options) {
+			goHeeere(add, options);
 		},
 		unbind: function (elem) {
-			goHeeere(elem, remove);
+			goHeeere(remove);
 		}
 	};
 
