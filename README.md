@@ -3,7 +3,9 @@ Heeere
 
 Are you heeere?
 
-A small library to check whether a DOM element is above, below or inside the actual viewport. Adds `.past`, `.future` and `.show` classes. It's up to you to do whatever you want with these classes!
+A small library to check whether a DOM element is above, below or inside the actual viewport. Adds `.past`, `.future` and `.inside` classes. **It's up to you to do whatever you want with these classes!** It adds a `.seen` class too, to elements that have `.past` or `.inside` classes.
+
+See it in action using CSS3D Transforms and transitions [in my personal website](http://iamvdo.me)
 
 ## Usage
 
