@@ -104,28 +104,31 @@
 				// Above the viewport
 				if ( item._offsetBottom - (item._offsetHeight * this.options.viewportFactor) < scrollTop ) {
 
-					if ( item._state !== 'past' ) {
-						item._state = 'past';
-						item.classList.add( 'past' );
-						item.classList.add( 'show' );
-						item.classList.remove( 'future' );
-					}
+					item._state = 'past';
+					item.classList.add( 'past' );
+					item.classList.add( 'seen' );
+					item.classList.remove( 'inside' );
+					item.classList.remove( 'future' );
+
 				}
 				// Below the viewport
-				else if( item._offsetTop + (item._offsetHeight * this.options.viewportFactor) > scrollBottom ) {
+				else if ( item._offsetTop + (item._offsetHeight * this.options.viewportFactor) > scrollBottom ) {
 
-					if ( item._state !== 'future' ) {
-						item._state = 'future';
-						item.classList.add( 'future' );
-						item.classList.remove( 'past' );
-						item.classList.remove( 'show' );
-					}
+					item._state = 'future';
+					item.classList.add( 'future' );
+					item.classList.remove( 'inside' );
+					item.classList.remove( 'past' );
+					item.classList.remove( 'seen' );
+
 				}
 				// Inside the viewport
 				else {
-					if ( item._state === 'past' ) item.classList.remove( 'past' );
-					if ( item._state === 'future' ) item.classList.remove( 'future' );
-					item._state = '';
+
+					item._state = 'inside';
+					item.classList.add( 'inside' );
+					item.classList.remove( 'past' );
+					item.classList.remove( 'future' );
+
 				}
 
 			}
