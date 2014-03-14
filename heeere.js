@@ -124,11 +124,57 @@
 				// Inside the viewport
 				else {
 
-					item._state = 'inside';
-					item.classList.add( 'inside' );
-					item.classList.remove( 'past' );
-					item.classList.remove( 'future' );
+					var time = 0;
+					if (item._state === 'future') {
+						time = item._offsetTop + (item._offsetHeight * this.options.viewportFactor);
+					} else if (item._state === 'past') {
+						time = item._offsetBottom - (item._offsetHeight * this.options.viewportFactor);
+					}
+					time -= scrollTop;
 
+					//time -= ((scrollBottom - scrollTop) / 2);
+					//time = Math.max(0, time);
+
+					if (item._state === 'past') {
+						time = (scrollBottom - scrollTop) - time;
+					}
+
+					time /= 3;
+
+
+					(function (it, tps) {
+
+						setTimeout(function () {
+							it._state = 'inside';
+							it.classList.add( 'inside' );
+							it.classList.remove( 'past' );
+							it.classList.remove( 'future' );
+						}, tps);
+
+					})(item, time);
+/*
+					(function(it, tps){
+						var start = null;
+						function repaint (timestamp) {
+							var progress;
+							if (start === null) {
+								start = timestamp;
+							}
+							progress = timestamp - start;
+
+							if (progress < tps) {
+								it._state = 'inside';
+								it.classList.add( 'inside' );
+								it.classList.remove( 'past' );
+								it.classList.remove( 'future' );
+
+								requestAnimFrame(repaint);
+							}
+						}
+
+						requestAnimFrame(repaint);
+					})(item, time);
+*/
 				}
 
 			}
@@ -149,13 +195,13 @@
 
 	window.requestAnimFrame = (function(){
 		return  window.requestAnimationFrame       ||
-			window.webkitRequestAnimationFrame ||
-			window.mozRequestAnimationFrame    ||
-			window.oRequestAnimationFrame      ||
-			window.msRequestAnimationFrame     ||
-			function( callback ){
-				window.setTimeout(callback, 1000 / 60);
-			};
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame    ||
+				window.oRequestAnimationFrame      ||
+				window.msRequestAnimationFrame     ||
+				function( callback ){
+					window.setTimeout(callback, 1000 / 60);
+				};
 	})();
 
 })();
