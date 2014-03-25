@@ -97,18 +97,9 @@
 
 			// get the scrollTop and scrollBottom
 			var scrollTop = scrollTopY(),
-				scrollBottom = scrollTop + window.innerHeight;
-			/*
-			var itemFuture;
+				innerH = window.innerHeight,
+				scrollBottom = scrollTop + innerH;
 
-			if (itemFuture = document.querySelector('.future')) {
-				console.log(itemFuture);
-				var posTmp = itemFuture._offsetTop + (itemFuture._offsetHeight * this.options.viewportFactor);
-				if (Math.abs(posFuture - posTmp) > 100) {
-					posFuture = posTmp;
-				}
-			}
-			*/
 			// Update each item classes
 			for ( var i = 0, len = this.items.length; i < len; i++ ) {
 				var item = this.items[i];
@@ -136,57 +127,82 @@
 				// Inside the viewport
 				else {
 
-					var time = 0;
-					var innerH = scrollBottom - scrollTop;
-					var innerHOneThird = innerH / 3;
 
-					if (item._state === 'future') {
+						var time = 0;
+						//time = getTime(item, this.options.easing);
 
-						time = item._offsetTop + (item._offsetHeight * this.options.viewportFactor);
-						time -= scrollTop; // 0 -> innerH
-						time = Math.max(innerHOneThird, time);
-						time -= innerHOneThird;
-						time = (time * 3/2); // 0 -> innerH
-						time /= innerH;
+						if (item._state === 'future') {
 
-					} else if (item._state === 'past') {
+							time = item._offsetTop + (item._offsetHeight * this.options.viewportFactor);
+							time -= scrollTop; // 0 -> innerH
 
-						time = item._offsetBottom - (item._offsetHeight * this.options.viewportFactor);
-						time -= scrollTop;
-						time = innerH - time; // innerH -> 0
-						time = Math.max(innerHOneThird, time);
-						time -= innerHOneThird;
-						time = (time * 3/2);
-						time /= innerH;
+						} else if (item._state === 'past') {
 
-					}
+							time = item._offsetBottom - (item._offsetHeight * this.options.viewportFactor);
+							time -= scrollTop;
+							time = innerH - time; // innerH -> 0
 
-					if (item._state === 'future' || item._state === 'past') {
+						}
 
-						time *= this.options.speed;
+						if (item._state === 'future' || item._state === 'past') {
 
-						(function (it, tps) {
+							time = Math.max(innerH / 3, time);
+							time -= innerH / 3;
+							time = (time * 3/2);
+							time /= innerH; // 0 -> 1 or 1 -> 0
 
-							setTimeout(function () {
+							time *= this.options.speed;
+							item._time = time;
 
-								it._state = 'inside';
-								it.classList.add( 'inside' );
-								it.classList.remove( 'past' );
-								it.classList.remove( 'future' );
+							(function (item) {
 
-							}, tps);
+								setTimeout(function () {
 
-						})(item, time);
+									item._state = 'inside';
+									item.classList.add( 'inside' );
+									item.classList.remove( 'past' );
+									item.classList.remove( 'future' );
 
-					};
+								}, item._time);
+
+							})(item);
+
+						}
+
 				}
 
 			}
-			
-			//console.log('future', posFuture);
+
+		},
+		getTime: function (item, easing) {
+
+			var time;
+
+			if (item._state === 'future') {
+
+				time = item._offsetTop + (item._offsetHeight * this.options.viewportFactor);
+
+			} else if (item._state === 'past') {
+
+				time = item._offsetBottom - (item._offsetHeight * this.options.viewportFactor);
+
+			}
+
+			time -= scrollTop;
+
+			if (item._state === 'past') {
+
+				time = innerH - time;
+
+			}
+			time = Math.max(innerHOneThird, time);
+			time -= innerHOneThird;
+			time = (time * 3/2); // 0 -> innerH
+			time /= innerH;
 
 		}
-	}
+
+	};
 
 	// add to global namespace
 	window.heeere = {

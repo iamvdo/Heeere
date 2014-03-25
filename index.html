@@ -54,6 +54,7 @@
 	}
 	.Greeed-item--big {
 		height: 20em;
+		background: hotpink;
 	}
 	.Greeed-column-inner {
 		padding: 0;
@@ -171,7 +172,10 @@
 	var greeedOptions = {
 		breakpoints : [34,48,65,88,110,140],
 		afterLayout: function () {
-			heeere.bind({elems: '.Greeed-item'});
+			heeere.bind({
+				elems: '.Greeed-item',
+				speed: 250
+			});
 		}
 	};
 
