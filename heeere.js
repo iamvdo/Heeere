@@ -59,7 +59,8 @@
 
 		defaults: {
 			elems: '.heeere-item',
-			viewportFactor: .15
+			viewportFactor: .15,
+			speed: 1000
 		},
 
 		init: function () {
@@ -162,7 +163,7 @@
 
 					if (item._state === 'future' || item._state === 'past') {
 
-						time *= 250;
+						time *= this.options.speed;
 
 						(function (it, tps) {
 
