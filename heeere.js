@@ -60,6 +60,7 @@
 		defaults: {
 			elems: '.heeere-item',
 			viewportFactor: .15,
+			smooth: false,
 			speed: 1000
 		},
 
@@ -127,6 +128,7 @@
 				// Inside the viewport
 				else {
 
+					if ( this.options.smooth ) {
 
 						var time = 0;
 						//time = getTime(item, this.options.easing);
@@ -169,6 +171,14 @@
 
 						}
 
+					} else {
+
+						item._state = 'inside';
+						item.classList.add( 'inside' );
+						item.classList.remove( 'past' );
+						item.classList.remove( 'future' );
+
+					}
 				}
 
 			}
