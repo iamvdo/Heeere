@@ -61,7 +61,7 @@
 			viewportFactor: 0.15,
 			smooth: false,
 			smoothLimit: 2,
-			speed: 250,
+			speed: 250
 		},
 
 		init: function () {
