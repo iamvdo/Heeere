@@ -1,5 +1,5 @@
 /*!
- * Heeere.js 1.0.0
+ * Heeere.js 1.1.0
  * MIT licensed
  *
  * Copyright (C) 2014 Vincent De Oliveira, http://iamvdo.me
@@ -61,7 +61,7 @@
 			viewportFactor: 0.15,
 			smooth: false,
 			smoothLimit: 2,
-			speed: 250
+			smoothSpeed: 250
 		},
 
 		init: function () {
@@ -148,7 +148,7 @@
 							time -= innerH / this.options.smoothLimit;
 							time = (time * (this.options.smoothLimit / (this.options.smoothLimit - 1)) );
 							time /= innerH; // 0 -> 1 or 1 -> 0
-							time *= this.options.speed;
+							time *= this.options.smoothSpeed;
 
 							item._time = Math.floor(time);
 
