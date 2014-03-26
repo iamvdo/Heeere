@@ -9,7 +9,6 @@
 	'use strict';
 
 	var heeere;
-	var posFuture = scrollTopY() + window.innerHeight;
 
 	function refresh () {
 
@@ -59,9 +58,9 @@
 
 		defaults: {
 			elems: '.heeere-item',
-			viewportFactor: .15,
+			viewportFactor: 0.15,
 			smooth: false,
-			speed: 1000
+			speed: 250
 		},
 
 		init: function () {
@@ -69,21 +68,18 @@
 			this.items = [];
 			var elems = document.querySelectorAll(this.options.elems);
 
-			for ( var i = elems.length - 1; i >= 0; i-- ) {
-				this.items.push(elems[i]);
-			}
-
 			// set DOM properties for each items
-			for ( var i = 0, len = this.items.length; i < len; i++ ) {
-				var item = this.items[i];
+			for ( var i = 0, len = elems.length; i < len; i++ ) {
+				var item = elems[i];
 				item._offsetHeight = item.offsetHeight;
 				if ( item.offsetParent !== null ) {
-				item._offsetTop = item.offsetTop + (item.offsetParent.offsetTop);
-			} else {
-				item._offsetTop = item.offsetTop;
-			}
+					item._offsetTop = item.offsetTop + (item.offsetParent.offsetTop);
+				} else {
+					item._offsetTop = item.offsetTop;
+				}
 				item._offsetBottom = item._offsetTop + item._offsetHeight;
-				//item._state = '';
+				// add this item to this.items
+				this.items.push(elems[i]);
 			}
 
 			refresh();
@@ -131,7 +127,6 @@
 					if ( this.options.smooth ) {
 
 						var time = 0;
-						//time = getTime(item, this.options.easing);
 
 						if (item._state === 'future') {
 
@@ -148,26 +143,34 @@
 
 						if (item._state === 'future' || item._state === 'past') {
 
+							item._timeInit = time;
 							time = Math.max(innerH / 3, time);
 							time -= innerH / 3;
 							time = (time * 3/2);
 							time /= innerH; // 0 -> 1 or 1 -> 0
-
+							item._timeBeforeSpeed = time;
 							time *= this.options.speed;
-							item._time = time;
+							item._time = Math.floor(time);
+
+							//item._state = 'inside';
+
+							//this.goSmooth(item);
 
 							(function (item) {
 
-								setTimeout(function () {
+				// not so smooth with setTimeout
+				setTimeout(function () {
 
-									item._state = 'inside';
-									item.classList.add( 'inside' );
-									item.classList.remove( 'past' );
-									item.classList.remove( 'future' );
+					item._state = 'inside';
+					item.classList.add( 'inside' );
+					item.classList.remove( 'past' );
+					item.classList.remove( 'future' );
 
-								}, item._time);
+					//console.log(item._timeInit, item._timeBeforeSpeed, item._time);
 
-							})(item);
+				}, item._time);
+
+			})(item);
 
 						}
 
@@ -184,31 +187,23 @@
 			}
 
 		},
-		getTime: function (item, easing) {
+		goSmooth: function (item) {
 
-			var time;
+			(function (item) {
 
-			if (item._state === 'future') {
+				// not so smooth with setTimeout
+				setTimeout(function () {
 
-				time = item._offsetTop + (item._offsetHeight * this.options.viewportFactor);
+					item._state = 'inside';
+					item.classList.add( 'inside' );
+					item.classList.remove( 'past' );
+					item.classList.remove( 'future' );
 
-			} else if (item._state === 'past') {
+					//console.log(item._timeInit, item._timeBeforeSpeed, item._time);
 
-				time = item._offsetBottom - (item._offsetHeight * this.options.viewportFactor);
+				}, item._time);
 
-			}
-
-			time -= scrollTop;
-
-			if (item._state === 'past') {
-
-				time = innerH - time;
-
-			}
-			time = Math.max(innerHOneThird, time);
-			time -= innerHOneThird;
-			time = (time * 3/2); // 0 -> innerH
-			time /= innerH;
+			})(item);
 
 		}
 
