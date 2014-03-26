@@ -60,7 +60,8 @@
 			elems: '.heeere-item',
 			viewportFactor: 0.15,
 			smooth: false,
-			speed: 250
+			smoothLimit: 2,
+			speed: 250,
 		},
 
 		init: function () {
@@ -143,9 +144,9 @@
 
 						if (item._state === 'future' || item._state === 'past') {
 
-							time = Math.max(innerH / 3, time);
-							time -= innerH / 3;
-							time = (time * 3/2);
+							time = Math.max(innerH / this.options.smoothLimit, time);
+							time -= innerH / this.options.smoothLimit;
+							time = (time * (this.options.smoothLimit / (this.options.smoothLimit - 1)) );
 							time /= innerH; // 0 -> 1 or 1 -> 0
 							time *= this.options.speed;
 
