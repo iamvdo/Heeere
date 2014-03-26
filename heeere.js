@@ -143,34 +143,15 @@
 
 						if (item._state === 'future' || item._state === 'past') {
 
-							item._timeInit = time;
 							time = Math.max(innerH / 3, time);
 							time -= innerH / 3;
 							time = (time * 3/2);
 							time /= innerH; // 0 -> 1 or 1 -> 0
-							item._timeBeforeSpeed = time;
 							time *= this.options.speed;
+
 							item._time = Math.floor(time);
 
-							//item._state = 'inside';
-
-							//this.goSmooth(item);
-
-							(function (item) {
-
-				// not so smooth with setTimeout
-				setTimeout(function () {
-
-					item._state = 'inside';
-					item.classList.add( 'inside' );
-					item.classList.remove( 'past' );
-					item.classList.remove( 'future' );
-
-					//console.log(item._timeInit, item._timeBeforeSpeed, item._time);
-
-				}, item._time);
-
-			})(item);
+							this.goSmooth(item);
 
 						}
 
@@ -198,8 +179,6 @@
 					item.classList.add( 'inside' );
 					item.classList.remove( 'past' );
 					item.classList.remove( 'future' );
-
-					//console.log(item._timeInit, item._timeBeforeSpeed, item._time);
 
 				}, item._time);
 
